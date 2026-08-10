@@ -30,6 +30,7 @@ A small Chainlit app that turns a text prompt into an AI-generated image using t
 ├── chainlit.md        # welcome text shown in the Chainlit sidebar
 ├── requirements.txt
 ├── render.yaml         # Render Blueprint: build/start commands, env vars
+├── .python-version     # pins Python <3.14 so chainlit's dependency range is satisfied
 ├── .env.example
 └── .gitignore
 ```
@@ -146,6 +147,14 @@ This repo includes `render.yaml`, which tells Render exactly how to build and ru
 6. Deploy, then open the assigned URL.
 
 Both options produce the same result — `render.yaml` just means you don't fill in the form by hand.
+
+### Python version
+
+`chainlit==2.11.1` requires Python `<3.14`, but Render's current default for new services is Python 3.14. This repo pins the version two ways so it works regardless of which deploy option you use:
+- `.python-version` (repo root) → picked up automatically by Render, works for both Option A and B.
+- `PYTHON_VERSION` in `render.yaml` → only reliably applied via the Blueprint flow (Option A).
+
+If you ever see a build error like `Could not find a version that satisfies the requirement chainlit==2.11.1`, check the top of the build log for which Python version Render actually selected — that's the first thing to fix.
 
 ## Streamlit vs Chainlit
 
